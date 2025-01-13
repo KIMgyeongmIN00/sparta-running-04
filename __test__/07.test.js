@@ -2,6 +2,9 @@ import { describe, it, expect, jest } from "@jest/globals";
 import { filterTodosByKeyword } from "../07.js";
 
 describe("filterTodosByKeyword 테스트", () => {
+  beforeEach(() => {
+    jest.clearAllMocks(); // 모든 Mock 초기화
+  });
   it("fetch 함수를 사용하는지 확인", () => {
     expect(filterTodosByKeyword.toString().includes("fetch")).toBe(true);
   });
@@ -13,10 +16,13 @@ describe("filterTodosByKeyword 테스트", () => {
       { id: 3, title: "hello kitty" },
     ];
     global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
       json: jest.fn().mockResolvedValue(mockData),
     });
 
+    console.log(global.fetch.mock.calls, "FETCH CALLS");
     const result = await filterTodosByKeyword("hello");
+    console.log(result, 'TEST');
     expect(result).toEqual([
       { id: 1, title: "Hello World" },
       { id: 3, title: "hello kitty" },

@@ -11,7 +11,20 @@
  * @returns {Promise<Array>}
  */
 
-async function filterTodosByKeyword(keyword) {}
+async function filterTodosByKeyword(keyword) {
+  try {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos');
+  if (!res.ok) {
+    throw new Error('error')
+  }
+  const data = await res.json();
+  const dataFiltered = data.filter(item => item.title.toLowerCase().includes(keyword.toLowerCase()));
+  console.log(dataFiltered, "myTest");
+  return dataFiltered
+  } catch (error) {
+    return [];
+  }
+}
 
 // export 수정 불가
 export { filterTodosByKeyword };
